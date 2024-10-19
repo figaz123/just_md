@@ -247,7 +247,7 @@ Langkah Kerja:
 3.	```Return```:
     Metode ini mengembalikan tuple ```(xleft, ytop)```, yang merupakan koordinat dari sudut kiri atas jalan. Koordinat ini digunakan untuk menentukan di mana jalan akan digambar di map, karena titik posisi yang disimpan adalah titik tengah, sedangkan gambar harus dimulai dari sudut kiri atas.
 
-# Class Block
+# Class Block()
 ```python
 class Block:
     def __init__(self, size, topleft):
@@ -277,7 +277,7 @@ class Block:
         return False  # No overlap
 ```
 Fungsi ini digunakan untuk menghasilkan gambar dari sebuah **blok**, termasuk latar belakang (rumput) dan objek-objek yang ada di dalam blok seperti pohon, rumah, atau jalan. Gambar yang dihasilkan adalah numpy array yang mewakili warna dan ukuran dari elemen-elemen yang ada dalam blok tersebut. Fungsi ini juga memastikan bahwa objek-objek ditampilkan dalam urutan tertentu dan ditempatkan pada koordinat yang benar.
-
+## Bagian-Bagian Class Block()
 1. ```grid = np.ones((self.size,self.size))*GRASS_COLOR``` 
     - np.ones((self.size, self.size)) membuat sebuah numpy array dua dimensi berukuran self.size x self.size, di mana setiap elemen array diisi dengan angka 1.
     - GRASS_COLOR: Seluruh elemen array tersebut dikalikan dengan warna rumput (GRASS_COLOR), sehingga seluruh blok diinisialisasi sebagai rumput.
@@ -374,7 +374,7 @@ class Map:
 ```
 Kelas Map berfungsi untuk merepresentasikan map yang terdiri dari kumpulan blok. Setiap blok di dalam map bisa berisi objek seperti pohon, rumah, atau jalan. Map memiliki dua jenis tampilan, yaitu RGB view untuk representasi visual (warna) dan thermal view untuk representasi suhu.
 
-## Penjelasan perbagian 
+## Bagian-bagian Class Map()
 ```python
 def __init__(self, map_shape, blocksize):
         self.map_shape = map_shape
@@ -392,7 +392,7 @@ Inisialisasi sebuah objek map.
     - blocksize: Ukuran dari setiap blok dalam map, dalam satuan piksel.
 
 2. Inisialisasi properti:
-    - self.map_shape: Menyimpan ukuran peta dalam bentuk baris dan kolom.
+    - self.map_shape: Menyimpan ukuran Map dalam bentuk baris dan kolom.
     - self.blocksize: Menyimpan ukuran blok dalam satuan piksel.
     - self.blocks: List yang akan menyimpan objek-objek blok.
 
@@ -404,9 +404,9 @@ for r in range(map_shape[0]):
         self.blocks.append(new_block)
 ```
 
-1. Melakukan looping melalui jumlah baris ```(r)``` dan kolom ```(c)``` dari peta.
+1. Melakukan looping melalui jumlah baris ```(r)``` dan kolom ```(c)``` dari map.
 2. Untuk setiap kombinasi baris dan kolom, dibuat objek Block baru dengan ukuran yang sudah ditentukan.
-    - Block(blocksize, (r * blocksize, c * blocksize)): Membuat blok dengan ukuran blocksize dan menentukan posisi awal (topleft) blok di grid peta berdasarkan indeks baris dan kolom.
+    - Block(blocksize, (r * blocksize, c * blocksize)): Membuat blok dengan ukuran blocksize dan menentukan posisi awal (topleft) blok di grid map berdasarkan indeks baris dan kolom.
     - Semua objek blok ditambahkan ke dalam list self.blocks.
 
 ```
@@ -418,30 +418,29 @@ def generate_rgb_view(self):
             rgb_view[ry_start:ry_start + self.blocksize, cx_start:cx_start + self.blocksize] = block_image
         return rgb_view
 ```
-Menghasilkan representasi visual peta dalam format RGB view.
-
+Menghasilkan representasi visual map dalam format RGB view.
 
 Inisialisasi grid kosong:
 
 ```rgb_view = np.zeros((self.map_shape[0] * self.blocksize, self.map_shape[1] * self.blocksize))```
 
-•	Membuat numpy array dua dimensi yang ukurannya sesuai dengan ukuran seluruh peta (baris ukuran blok, kolom ukuran blok).
+•	Membuat numpy array dua dimensi yang ukurannya sesuai dengan ukuran seluruh map (baris ukuran blok, kolom ukuran blok).
 •	Semua elemen array diinisialisasi dengan nilai 0.
 
-Menggambar setiap blok di peta:
+Menggambar setiap blok di map:
 ```
 for block in self.blocks:
     block_image = block.generate_image()
     cx_start, ry_start = block.topleft
     rgb_view[ry_start:ry_start + self.blocksize, cx_start:cx_start + self.blocksize] = block_image
 ```
-1. Looping melalui setiap blok yang ada di peta:
+1. Looping melalui setiap blok yang ada di map:
     - block.generate_image(): Memanggil fungsi dari objek blok untuk menghasilkan gambar dari blok tersebut, termasuk objek yang ada di dalamnya.
-    - block.topleft: Mendapatkan koordinat topleft dari blok untuk menempatkannya di dalam grid peta.
+    - block.topleft: Mendapatkan koordinat topleft dari blok untuk menempatkannya di dalam grid map.
     - Mengisi grid: Gambar blok akan ditempatkan pada koordinat yang sesuai di dalam rgb_view dengan rentang dari ry_start hingga ry_start + blocksize dan cx_start hingga cx_start + blocksize.
 
 2. Mengembalikan hasil:
-    Setelah seluruh blok ditempatkan di grid peta, fungsi akan mengembalikan rgb_view yang berisi representasi visual dari seluruh peta.
+    Setelah seluruh blok ditempatkan di grid map, fungsi akan mengembalikan rgb_view yang berisi representasi visual dari seluruh map.
 
 ``` 
 def generate_thermal_view(self, base_temp=20):
@@ -475,19 +474,19 @@ def generate_thermal_view(self, base_temp=20):
                 thermal_view[ry_start:ry_start + self.blocksize, cx_start:cx_start + self.blocksize] += block_temp
 ```
 
-Menghasilkan representasi suhu peta dalam format thermal view, dengan suhu dasar yang dapat disesuaikan.
+Menghasilkan representasi suhu map dalam format thermal view, dengan suhu dasar yang dapat disesuaikan.
 
 Langkah-langkah:
 1.	Inisialisasi grid suhu
     ```thermal_view = np.ones((self.map_shape[0] * self.blocksize, self.map_shape[1] * self.blocksize)) * base_temp```
-    Membuat numpy array dua dimensi yang berisi nilai suhu dasar (base_temp) untuk setiap piksel di dalam peta.
+    Membuat numpy array dua dimensi yang berisi nilai suhu dasar (base_temp) untuk setiap piksel di dalam map.
 2.	Looping melalui setiap blok:
     ```python
     for block in self.blocks:
         cx_start, ry_start = block.topleft
         block_temp = np.ones((self.blocksize, self.blocksize)) * base_temp  
     ```
-3. Looping melalui setiap blok di peta:
+3. Looping melalui setiap blok di map:
     Untuk setiap blok, inisialisasi array dua dimensi block_temp dengan suhu dasar (base_temp) yang merepresentasikan suhu di dalam blok.
     
 4. Menerapkan efek suhu berdasarkan objek dalam blok:
@@ -519,13 +518,13 @@ Langkah-langkah:
     - Jika objek adalah pohon, suhu dinaikkan 2°C.
     - Jika objek adalah jalan, suhu dinaikkan 1°C.
 
-6.	Mengisi suhu blok ke dalam peta suhu:
+6.	Mengisi suhu blok ke dalam map suhu:
 ```thermal_view[ry_start:ry_start + self.blocksize, cx_start:cx_start + self.blocksize] += block_temp```
     Menambahkan nilai suhu lokal dari block_temp ke area yang sesuai di thermal_view berdasarkan posisi topleft blok.
 
 7.	Mengembalikan hasil:
     ```return thermal_view```
-    Setelah seluruh blok diproses dan suhu diperbarui, fungsi mengembalikan thermal_view, yaitu representasi suhu dari peta.
+    Setelah seluruh blok diproses dan suhu diperbarui, fungsi mengembalikan thermal_view, yaitu representasi suhu dari map.
 
 
 # Fungsi simulation_loop
@@ -561,11 +560,12 @@ def simulation_loop(map_obj, steps=24):
         plt.show()
 ```
 
-Fungsi simulation_loop() digunakan untuk mensimulasikan perubahan suhu dan menampilkan visualisasi peta dalam bentuk RGB View dan Thermal View pada setiap langkah waktu (step) yang telah ditentukan.
+Fungsi simulation_loop() digunakan untuk mensimulasikan perubahan suhu dan menampilkan visualisasi map dalam bentuk RGB View dan Thermal View pada setiap langkah waktu (step) yang telah ditentukan.
 Fungsi ini berjalan dalam loop, di mana setiap iterasi dari loop mewakili satu langkah waktu dalam sehari, dengan perubahan suhu yang terjadi sesuai dengan waktu tersebut (pagi, siang, sore, malam).
 
+## Penjelasan Bagian Fungsi simulation_loop
 Parameter
-- ```map_obj```: Ini adalah objek dari kelas Map, yang berisi semua blok dan item di dalam peta. Peta ini akan digunakan untuk menghasilkan tampilan visual (RGB) dan tampilan suhu (thermal).
+- ```map_obj```: Ini adalah objek dari kelas Map, yang berisi semua blok dan item di dalam map. Map ini akan digunakan untuk menghasilkan tampilan visual (RGB) dan tampilan suhu (thermal).
 - ```steps=24```: Menentukan jumlah langkah dalam simulasi, defaultnya adalah 24 langkah, yang bisa dianggap sebagai simulasi selama 24 jam (1 hari penuh).
 
 1. Looping Melalui Langkah-Langkah Simulasi
@@ -611,7 +611,7 @@ Parameter
 
 4. Menghasilkan Tampilan Thermal
     ```thermal_view = map_obj.generate_thermal_view(base_temp=base_temp)```
-    Fungsi generate_thermal_view(base_temp) digunakan untuk menghasilkan tampilan suhu (thermal view) berdasarkan suhu dasar yang telah dihitung. Ini menggunakan objek peta map_obj untuk menghitung pengaruh setiap item (seperti rumah, pohon, jalan) terhadap suhu.
+    Fungsi generate_thermal_view(base_temp) digunakan untuk menghasilkan tampilan suhu (thermal view) berdasarkan suhu dasar yang telah dihitung. Ini menggunakan objek map map_obj untuk menghitung pengaruh setiap item (seperti rumah, pohon, jalan) terhadap suhu.
     Suhu dasar akan ditambahkan dengan efek suhu dari item, misalnya:
     - Rumah menambah 5°C.
     - Pohon menambah 2°C.
@@ -632,9 +632,9 @@ Parameter
         fig.colorbar(img_rgb, ax=ax[0])
         ```
         
-        - generate_rgb_view(): Menghasilkan tampilan RGB dari peta, di mana warna-warna digunakan untuk merepresentasikan item seperti rumah, pohon, jalan, dan rumput.
-        - imshow(): Menampilkan tampilan RGB di area plot pertama (ax[0]).
-        - colorbar(): Menambahkan legenda warna di samping tampilan untuk memperlihatkan rentang warna yang digunakan.
+        a. generate_rgb_view(): Menghasilkan tampilan RGB dari map, di mana warna-warna digunakan untuk merepresentasikan item seperti rumah, pohon, jalan, dan rumput.
+        b. imshow(): Menampilkan tampilan RGB di area plot pertama (ax[0]).
+        c. colorbar(): Menambahkan legenda warna di samping tampilan untuk memperlihatkan rentang warna yang digunakan.
 
 6. Plotting Thermal View
     ```python
@@ -642,7 +642,7 @@ Parameter
     ax[1].set_title(f"Thermal View at Step {step + 1}")
     fig.colorbar(img_thermal, ax=ax[1])
     ```
-    - ```thermal_view```: Menampilkan tampilan thermal (suhu) dari peta.
+    - ```thermal_view```: Menampilkan tampilan thermal (suhu) dari map.
     - ```imshow(..., cmap="hot")```: Menampilkan tampilan suhu dengan menggunakan palet warna "hot", yang menampilkan perbedaan suhu dengan warna merah/oranye.
     - ```vmin=0```, ```vmax=50```: Menetapkan skala warna untuk tampilan suhu dari 0°C hingga 50°C.
     - ```set_title()```: Memberikan judul untuk plot thermal, termasuk informasi langkah simulasi yang sedang ditampilkan.
@@ -709,6 +709,94 @@ if __name__ == "__main__":
     main()
 
 ```
+Fungsi ```main()```  adalah pusat dari program yang mengatur alur simulasi pembuatan map. Pengguna diminta untuk memasukkan jumlah dan posisi item (pohon, rumah, jalan), lalu item tersebut ditempatkan di map jika tidak ada tumpang tindih (overlap) antar item. Setelah itu, program menjalankan simulasi suhu dan menampilkan map secara visual
+
+## Penjelasan bagian-bagian fungsi Main()
+1. Inisialisasi Variabel blocksize dan map_shape:
+    ```python
+    blocksize = 120
+    map_shape = (1, 1)
+    ```
+    - ```blocksize = 120```: Mengatur ukuran blok atau grid di dalam peta. Setiap blok akan memiliki ukuran 120x120 piksel.
+    - ```map_shape = (1, 1)```: Mengatur bentuk peta yang berupa matriks 2D. Dalam hal ini, peta terdiri dari 1 baris dan 1 kolom, sehingga hanya ada 1 blok pada peta.
+2. Membuat Objek Map:
+    ```python
+    map_obj = Map(map_shape, blocksize)
+    ```
+    Membuat sebuah objek dari class Map dengan bentuk peta (map_shape) dan ukuran blok (blocksize). Objek Map ini akan menampung blok-blok dan item (seperti pohon, rumah, dan jalan) yang akan digambar di peta.
+3. Menerima Input dari Pengguna:
+    ```python
+    num_trees = int(input("Enter the number of trees to spawn: "))
+    num_houses = int(input("Enter the number of houses to spawn: "))
+    num_roads = int(input("Enter the number of roads to spawn: "))
+    ```
+    - ```num_trees```: Jumlah pohon yang akan ditambahkan di peta.
+    - ```num_houses```: Jumlah rumah yang akan ditambahkan di peta.
+    - ```num_roads```: Jumlah jalan yang akan ditambahkan di peta.
+4. Mendefinisikan Koordinat untuk Pohon, Rumah, dan Jalan:
+    ```python
+    tree_coords = []
+    house_coords = []
+    road_coords = []
+    ```
+    ```tree_coords```, ```house_coords```, dan ```road_coords```: List untuk menyimpan koordinat yang akan diberikan oleh pengguna, di mana item-item tersebut akan ditempatkan di peta.
+5. Menerima Input Koordinat dari Pengguna:
+    Pengguna akan memberikan koordinat ```(x, y)``` untuk setiap pohon, rumah, dan jalan yang akan digambar pada peta.
+    - Koordinat untuk pohon:
+        ```python
+        for i in range(num_trees):
+        x, y = map(int, input(f"Enter x, y coordinates for Tree {i + 1} (comma-separated): ").split(","))
+        tree_coords.append((x, y))
+        ```
+    - Koordinat untuk Rumah:
+        ```python
+        for i in range(num_houses):
+        x, y = map(int, input(f"Enter x, y coordinates for House {i + 1} (comma-separated): ").split(","))
+        house_coords.append((x, y))
+        ```
+        Pengguna memasukkan koordinat (x, y) untuk setiap rumah, dan koordinatnya disimpan dalam ```house_coords```.
+    - Koordinat untuk Jalan:
+        ```python
+        for i in range(num_roads):
+        x, y = map(int, input(f"Enter x, y coordinates for Road {i + 1} (comma-separated): ").split(","))
+        road_coords.append((x, y))
+        ```
+        Pengguna memasukkan koordinat ```(x, y)``` untuk setiap jalan, dan disimpan dalam ```road_coords```.
+
+
+6. Menambahkan Item ke dalam Blok di Peta:
+    Pohon, rumah, dan jalan ditambahkan ke dalam blok peta dengan memeriksa apakah ada overlap (tumpang tindih) antar item atau tidak.
+    - Menambahkan Pohon
+        ```python
+            for block in map_obj.blocks:
+                for coord in tree_coords:
+                    new_tree = Tree(coord)
+                    if not block.check_overlap(new_tree):  # Check for overlap
+                        block.add_item(new_tree)
+        ```
+        Membuat objek Tree untuk setiap koordinat yang diberikan pengguna. Fungsi ```check_overlap()``` digunakan untuk memeriksa apakah item pohon bertumpang tindih dengan item lain di blok. Jika tidak bertumpang tindih, item ditambahkan ke blok dengan ```add_item()```.
+        
+    - Menambahkan Rumah:
+        ```python
+            for coord in house_coords:
+                new_house = House(coord)
+                if not block.check_overlap(new_house):  # Check for overlap
+                    block.add_item(new_house)
+        ```
+        Sama seperti pohon, rumah juga ditambahkan ke blok jika tidak tumpang tindih.
+
+7. Menjalankan Simulasi:
+    ```python
+    simulation_loop(map_obj, steps=24)
+    ```
+    Setelah semua item ditambahkan, ```simulation_loop()``` dijalankan. Fungsi ini akan menampilkan simulasi peta dalam 24 langkah waktu (24 jam), dengan menunjukkan bagaimana suhu dasar (base temperature) berubah sepanjang hari.
+8. Memastikan Fungsi main() Dijalankan:
+    ```python
+    if __name__ == "__main__":
+        main()
+    ```
+    Bagian ini memastikan bahwa fungsi ```main()``` dijalankan ketika file dijalankan sebagai script, menginisialisasi proses input pengguna dan menjalankan simulasi peta.
+
 
 List error:
 1. Bug Pertama
@@ -717,3 +805,4 @@ klarifikasi:
 simulasinya hanya untuk dibawah 24 jam
 2. Bug kedua
 kondisi untuk mengecek koordinat tidak berjalan sehingga program tetap berjalan
+3. 
