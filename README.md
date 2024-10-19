@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 ```
 
-- Definisikan variable warna, tinggi dan lebar dari pohon, jalan, rumah serta warna dari rumput
+- Definisikan variable warna, tinggi dan lebar dari tree, road, house serta warna dari rumput
 ```python
 BASE_COLOR = 0  # Base color for blocks with no items
 HOUSE_COLOR = 18  # Color for the house
@@ -21,7 +21,7 @@ HOUSE_HEIGHT = 15
 ROAD_WIDTH = 10
 ```
 ## Class Tree
-Kelas ini digunakan untuk merepresentasikan objek pohon di dalam map. Pohon memiliki beberapa atribut, seperti posisi, ukuran, nama, dan umur. Selain itu, kelas ini juga memiliki beberapa metode yang digunakan untuk mendapatkan gambar representasi dari pohon dan menghitung koordinat kiri atasnya di map.
+Kelas ini digunakan untuk merepresentasikan objek tree di dalam map. Tree memiliki beberapa atribut, seperti posisi, ukuran, nama, dan umur. Selain itu, kelas ini juga memiliki beberapa metode yang digunakan untuk mendapatkan gambar representasi dari tree dan menghitung koordinat kiri atasnya di map.
 
 ```python
 class Tree:
@@ -50,16 +50,16 @@ def __init__(self, pos):
 ```
 1. ```self.pose```:
     - Tipe: Tuple ```(x, y)```
-    - Fungsi: Menyimpan posisi pohon dalam bentuk koordinat ```(x, y)``` pada map. Posisi ini ditentukan saat pohon dibuat. Koordinat ini adalah titik pusat pohon.
+    - Fungsi: Menyimpan posisi tree dalam bentuk koordinat ```(x, y)``` pada map. Posisi ini ditentukan saat tree dibuat. Koordinat ini adalah titik pusat tree.
 2. ```self.size```:
     - Tipe: Integer
-    - Fungsi: Menyimpan ukuran dari pohon. Ukuran ini sudah ditentukan sebelumnya oleh variabel ```TREE_SIZE```, yang nilainya diatur sebagai 10. Ukuran ini merupakan dimensi pohon dalam piksel, yaitu ```10x10``` piksel.
+    - Fungsi: Menyimpan ukuran dari tree. Ukuran ini sudah ditentukan sebelumnya oleh variabel ```TREE_SIZE```, yang nilainya diatur sebagai 10. Ukuran ini merupakan dimensi tree dalam piksel, yaitu ```10x10``` piksel.
 3. ```self.name```:
     - Tipe: String
-    - Fungsi: Menyimpan nama dari objek pohon, yaitu "Tree". Nama ini bisa digunakan untuk membedakan objek ini dari objek lain seperti rumah atau jalan.
+    - Fungsi: Menyimpan nama dari objek tree, yaitu "Tree". Nama ini bisa digunakan untuk membedakan objek ini dari objek lain seperti house atau road.
 4. ```self.age```:
     - Tipe: Integer
-    - Fungsi: Menyimpan usia pohon, yang ditentukan secara acak menggunakan fungsi ```random.randint(1, 100)```. Setiap pohon akan memiliki usia yang berbeda-beda di antara 1 hingga 100 tahun
+    - Fungsi: Menyimpan usia tree, yang ditentukan secara acak menggunakan fungsi ```random.randint(1, 100)```. Setiap tree akan memiliki usia yang berbeda-beda di antara 1 hingga 100 tahun
 
 ```python
 def get_image(self):
@@ -67,15 +67,15 @@ def get_image(self):
         return img
 ```
 Fungsi ```def get_image(self)```:
-Metode ini digunakan untuk menghasilkan representasi visual dari pohon dalam bentuk matriks numpy. Pohon akan ditampilkan sebagai matriks berukuran 10x10 (sesuai dengan TREE_SIZE) yang diisi dengan nilai warna tertentu.
+Metode ini digunakan untuk menghasilkan representasi visual dari tree dalam bentuk matriks numpy. Tree akan ditampilkan sebagai matriks berukuran 10x10 (sesuai dengan TREE_SIZE) yang diisi dengan nilai warna tertentu.
 
 Langkah Kerja:
 - ```np.ones((self.size, self.size))```:
     Fungsi ```np.ones``` menghasilkan matriks (array 2D) dengan ukuran ```self.size x self.size```, yaitu ```10x10```, yang diisi dengan nilai 1. Setiap elemen dalam matriks ini merepresentasikan sebuah piksel.
 - ```TREE_COLOR```:
-    Setiap elemen dalam matriks yang sebelumnya diisi dengan 1 akan dikalikan dengan ```TREE_COLOR```. ```TREE_COLOR``` adalah variabel global yang mendefinisikan warna pohon, dalam hal ini nilainya 11. Jadi, seluruh elemen dalam matriks tersebut diubah menjadi 11, yang akan digunakan sebagai warna pohon dalam representasi map.
+    Setiap elemen dalam matriks yang sebelumnya diisi dengan 1 akan dikalikan dengan ```TREE_COLOR```. ```TREE_COLOR``` adalah variabel global yang mendefinisikan warna tree, dalam hal ini nilainya 11. Jadi, seluruh elemen dalam matriks tersebut diubah menjadi 11, yang akan digunakan sebagai warna tree dalam representasi map.
 - ```Return```:
-    Metode ini mengembalikan matriks numpy berukuran 10x10 yang berisi nilai 11, yang mewakili warna dari pohon.
+    Metode ini mengembalikan matriks numpy berukuran 10x10 yang berisi nilai 11, yang mewakili warna dari tree.
 
 ```python
 def get_topleft(self):
@@ -84,21 +84,21 @@ def get_topleft(self):
         return (xleft, ytop)
 ```
 Fungsi```def get_topleft(self)```: 
-Metode ini digunakan untuk menghitung koordinat kiri atas dari pohon. Koordinat ini diperlukan untuk menempatkan gambar pohon di dalam map.
+Metode ini digunakan untuk menghitung koordinat kiri atas dari tree. Koordinat ini diperlukan untuk menempatkan gambar tree di dalam map.
 
 Langkah Kerja:
 1. ```self.pos[0] - self.size // 2```:
-    - ```self.pos[0]```: Ini adalah posisi x dari pohon yang disimpan di atribut pos (titik pusat pohon). Misalnya, jika pohon berada pada koordinat (50, 50), maka self.pos[0] adalah 50.
-    - ```self.size // 2```: Ini adalah setengah dari ukuran pohon, yaitu 10 // 2 = 5. Dengan membagi ukuran pohon menjadi dua, kita bisa menemukan jarak dari pusat pohon ke tepi kiri.
-    - ```xleft```: Dengan mengurangkan setengah ukuran pohon dari posisi x (titik pusat), kita mendapatkan koordinat x dari sisi kiri pohon. Misalnya, jika posisi x adalah 50 dan ukuran pohon 10, maka sisi kiri pohon adalah 50 - 5 = 45.
+    - ```self.pos[0]```: Ini adalah posisi x dari tree yang disimpan di atribut pos (titik pusat tree). Misalnya, jika tree berada pada koordinat (50, 50), maka self.pos[0] adalah 50.
+    - ```self.size // 2```: Ini adalah setengah dari ukuran tree, yaitu 10 // 2 = 5. Dengan membagi ukuran tree menjadi dua, kita bisa menemukan jarak dari pusat tree ke tepi kiri.
+    - ```xleft```: Dengan mengurangkan setengah ukuran tree dari posisi x (titik pusat), kita mendapatkan koordinat x dari sisi kiri tree. Misalnya, jika posisi x adalah 50 dan ukuran tree 10, maka sisi kiri tree adalah 50 - 5 = 45.
 2.	```self.pos[1] - self.size // 2```:
-    - Proses ini mirip dengan perhitungan x, tetapi untuk sumbu y (atas/bawah). Ini digunakan untuk menghitung koordinat y dari sisi atas pohon.
-    - Misalnya, jika posisi y pohon adalah 50, maka sisi atas pohon adalah 50 - 5 = 45.
+    - Proses ini mirip dengan perhitungan x, tetapi untuk sumbu y (atas/bawah). Ini digunakan untuk menghitung koordinat y dari sisi atas tree.
+    - Misalnya, jika posisi y tree adalah 50, maka sisi atas tree adalah 50 - 5 = 45.
 3. ```Return```:
-    - Metode ini mengembalikan tuple ```(xleft, ytop)``` yang merupakan koordinat dari sudut kiri atas pohon. Koordinat ini diperlukan untuk menempatkan gambar pohon di posisi yang benar pada map, karena posisi yang disimpan (di atribut pos) adalah pusat pohon, bukan sudutnya.
+    - Metode ini mengembalikan tuple ```(xleft, ytop)``` yang merupakan koordinat dari sudut kiri atas tree. Koordinat ini diperlukan untuk menempatkan gambar tree di posisi yang benar pada map, karena posisi yang disimpan (di atribut pos) adalah pusat tree, bukan sudutnya.
 
 ## Class House
-Kelas House digunakan untuk merepresentasikan objek rumah di dalam map. Setiap rumah memiliki atribut seperti posisi, lebar, tinggi, nama, dan umur. Selain itu, kelas ini memiliki metode untuk menggambar rumah dalam bentuk matriks (array) dan menghitung koordinat kiri atasnya untuk menempatkannya di map.
+Kelas House digunakan untuk merepresentasikan objek house di dalam map. Setiap house memiliki atribut seperti posisi, lebar, tinggi, nama, dan umur. Selain itu, kelas ini memiliki metode untuk menggambar house dalam bentuk matriks (array) dan menghitung koordinat kiri atasnya untuk menempatkannya di map.
 ```python
 class House:
     def __init__(self, pos):
@@ -128,33 +128,33 @@ class House:
 ```
 1. ```self.pos```:
     - Tipe: Tuple (x, y)
-    - Fungsi: Menyimpan posisi rumah dalam bentuk koordinat (x, y) pada map. Posisi ini ditentukan ketika rumah dibuat dan merepresentasikan titik pusat rumah.
+    - Fungsi: Menyimpan posisi house dalam bentuk koordinat (x, y) pada map. Posisi ini ditentukan ketika house dibuat dan merepresentasikan titik pusat house.
 2. ```self.width```:
     - Tipe: Integer
-    - Fungsi: Menyimpan lebar rumah. Lebar ini ditentukan oleh variabel HOUSE_WIDTH, yang sudah didefinisikan sebelumnya sebagai 20 piksel. Lebar ini tetap untuk setiap rumah yang dibuat.
+    - Fungsi: Menyimpan lebar house. Lebar ini ditentukan oleh variabel HOUSE_WIDTH, yang sudah didefinisikan sebelumnya sebagai 20 piksel. Lebar ini tetap untuk setiap house yang dibuat.
 3. ```self.height```:
     - Tipe: Integer
-    - Fungsi: Menyimpan tinggi rumah, yang ditentukan oleh variabel HOUSE_HEIGHT sebesar 15 piksel. Sama seperti width, tinggi ini juga tetap untuk setiap rumah.
+    - Fungsi: Menyimpan tinggi house, yang ditentukan oleh variabel HOUSE_HEIGHT sebesar 15 piksel. Sama seperti width, tinggi ini juga tetap untuk setiap house.
 4. ```self.name```:
     - Tipe: String
-    - Fungsi: Menyimpan nama dari objek, yaitu "House". Nama ini membedakan rumah dari objek lain seperti pohon atau jalan.
+    - Fungsi: Menyimpan nama dari objek, yaitu "House". Nama ini membedakan house dari objek lain seperti tree atau road.
 5. ```self.age```:
     - Tipe: Integer
-    - Fungsi: Menyimpan usia rumah dalam bentuk angka acak yang dihasilkan oleh fungsi random.randint(1, 100). Setiap rumah memiliki usia antara 1 hingga 100 tahun.
+    - Fungsi: Menyimpan usia house dalam bentuk angka acak yang dihasilkan oleh fungsi random.randint(1, 100). Setiap house memiliki usia antara 1 hingga 100 tahun.
 ```python
 def get_image(self):
     img = np.ones((self.height, self.width)) * HOUSE_COLOR
     return img
 ```
-Metode ini menghasilkan gambar atau representasi visual dari rumah dalam bentuk matriks numpy (array 2D) berisi nilai warna tertentu untuk rumah.
+Metode ini menghasilkan gambar atau representasi visual dari house dalam bentuk matriks numpy (array 2D) berisi nilai warna tertentu untuk house.
 
 Langkah Kerja:
 1.	```np.ones((self.height, self.width))```:
-Fungsi np.ones membuat matriks berukuran self.height x self.width (15x20 piksel), di mana semua nilai elemennya diinisialisasi menjadi 1. Setiap elemen dalam matriks ini merepresentasikan satu piksel dari gambar rumah.
+Fungsi np.ones membuat matriks berukuran self.height x self.width (15x20 piksel), di mana semua nilai elemennya diinisialisasi menjadi 1. Setiap elemen dalam matriks ini merepresentasikan satu piksel dari gambar house.
 2.	```HOUSE_COLOR```:
-Setiap elemen di dalam matriks yang awalnya bernilai 1 kemudian dikalikan dengan HOUSE_COLOR. HOUSE_COLOR adalah variabel global yang mendefinisikan warna rumah (dalam hal ini, bernilai 18). Jadi, seluruh elemen dalam matriks tersebut menjadi 18, yang digunakan sebagai warna rumah pada map.
+Setiap elemen di dalam matriks yang awalnya bernilai 1 kemudian dikalikan dengan HOUSE_COLOR. HOUSE_COLOR adalah variabel global yang mendefinisikan warna house (dalam hal ini, bernilai 18). Jadi, seluruh elemen dalam matriks tersebut menjadi 18, yang digunakan sebagai warna house pada map.
 3.	```Return```:
-Metode ini mengembalikan matriks numpy berukuran 15x20 piksel yang berisi nilai 18, merepresentasikan gambar rumah yang akan ditempatkan pada map.
+Metode ini mengembalikan matriks numpy berukuran 15x20 piksel yang berisi nilai 18, merepresentasikan gambar house yang akan ditempatkan pada map.
 
 ```python
 def get_topleft(self):
@@ -162,22 +162,22 @@ def get_topleft(self):
     ytop = self.pos[1] - self.height // 2
     return (xleft, ytop)
 ```
-Metode ini digunakan untuk menghitung koordinat kiri atas dari rumah berdasarkan posisi pusatnya. Koordinat ini diperlukan untuk menentukan posisi rumah yang tepat di dalam map.
+Metode ini digunakan untuk menghitung koordinat kiri atas dari house berdasarkan posisi pusatnya. Koordinat ini diperlukan untuk menentukan posisi house yang tepat di dalam map.
 
 Langkah Kerja:
 1.	```self.pos[0] - self.width // 2```:
-    - ```self.pos[0]```: Ini adalah posisi x dari pusat rumah, disimpan dalam atribut pos. Jika pusat rumah berada pada titik ```(50, 50)```, maka ```self.pos[0]``` adalah 50.
-    - ```self.width // 2```: Ini adalah setengah dari lebar rumah, yaitu```20 // 2 = 10```. Dengan menghitung setengah lebar rumah, kita dapat mengetahui jarak dari pusat rumah ke tepi kiri.
-    - ```xleft```: Dengan mengurangkan setengah dari lebar rumah dari posisi pusat x, kita mendapatkan koordinat x dari sudut kiri rumah. Misalnya, jika lebar rumah 20 piksel dan posisi x rumah 50, maka sisi kiri rumah berada pada ```50 - 10 = 40```.
+    - ```self.pos[0]```: Ini adalah posisi x dari pusat house, disimpan dalam atribut pos. Jika pusat house berada pada titik ```(50, 50)```, maka ```self.pos[0]``` adalah 50.
+    - ```self.width // 2```: Ini adalah setengah dari lebar house, yaitu```20 // 2 = 10```. Dengan menghitung setengah lebar house, kita dapat mengetahui jarak dari pusat house ke tepi kiri.
+    - ```xleft```: Dengan mengurangkan setengah dari lebar house dari posisi pusat x, kita mendapatkan koordinat x dari sudut kiri house. Misalnya, jika lebar house 20 piksel dan posisi x house 50, maka sisi kiri house berada pada ```50 - 10 = 40```.
 2. ```self.pos[1] - self.height // 2```:
-    - ```self.pos[1]```: Ini adalah posisi y dari pusat rumah (50 dalam contoh).
-    - ```self.height // 2```: Ini adalah setengah dari tinggi rumah, yaitu ```15 // 2``` = 7. Jadi, jarak dari pusat rumah ke tepi atas adalah 7 piksel.
-    -```ytop```: Dengan mengurangkan setengah dari tinggi rumah dari posisi pusat y, kita mendapatkan koordinat y dari sudut kiri atas rumah. Jika posisi y rumah adalah 50, maka sudut kiri atas rumah ada pada ```50 - 7 = 43```.
+    - ```self.pos[1]```: Ini adalah posisi y dari pusat house (50 dalam contoh).
+    - ```self.height // 2```: Ini adalah setengah dari tinggi house, yaitu ```15 // 2``` = 7. Jadi, jarak dari pusat house ke tepi atas adalah 7 piksel.
+    -```ytop```: Dengan mengurangkan setengah dari tinggi house dari posisi pusat y, kita mendapatkan koordinat y dari sudut kiri atas house. Jika posisi y house adalah 50, maka sudut kiri atas house ada pada ```50 - 7 = 43```.
 3.	```Return```:
-Metode ini mengembalikan tuple (xleft, ytop), yang merupakan koordinat dari sudut kiri atas rumah. Koordinat ini digunakan untuk menempatkan gambar rumah di lokasi yang tepat pada map, karena posisi yang disimpan (self.pos) adalah pusat rumah, bukan tepi kirinya.
+Metode ini mengembalikan tuple (xleft, ytop), yang merupakan koordinat dari sudut kiri atas house. Koordinat ini digunakan untuk menempatkan gambar house di lokasi yang tepat pada map, karena posisi yang disimpan (self.pos) adalah pusat house, bukan tepi kirinya.
 
 # Class Road
-Kelas Road digunakan untuk merepresentasikan objek jalan pada map. Setiap objek jalan memiliki atribut seperti posisi, panjang, dan lebar. Selain itu, kelas ini memiliki metode untuk menggambarkan jalan dalam bentuk matriks (array) dan menghitung koordinat kiri atas jalan untuk penempatan di map.
+Kelas Road digunakan untuk merepresentasikan objek road pada map. Setiap objek road memiliki atribut seperti posisi, panjang, dan lebar. Selain itu, kelas ini memiliki metode untuk menggambarkan road dalam bentuk matriks (array) dan menghitung koordinat kiri atas road untuk penempatan di map.
 
 ```python
 class Road:
@@ -206,29 +206,29 @@ def __init__(self, pos, length):
 ```
 1. ```self.pos```:
     - Tipe: Tuple ```(x, y)```
-    - Fungsi: Menyimpan posisi tengah dari jalan dalam bentuk koordinat (x, y) pada map. Posisi ini direpresentasikan oleh self.pos yang menentukan di mana jalan akan ditempatkan.
+    - Fungsi: Menyimpan posisi tengah dari road dalam bentuk koordinat (x, y) pada map. Posisi ini direpresentasikan oleh self.pos yang menentukan di mana road akan ditempatkan.
 2. ```self.length```:
     - Tipe: Integer
-    - Fungsi: Menyimpan panjang jalan, yang diberikan sebagai parameter ketika objek Road dibuat. Panjang ini akan menentukan seberapa jauh jalan terbentang secara vertikal di map.
+    - Fungsi: Menyimpan panjang road, yang diberikan sebagai parameter ketika objek Road dibuat. Panjang ini akan menentukan seberapa jauh road terbentang secara vertikal di map.
 3. ```self.width```:
     - Tipe: Integer
-    - Fungsi: Menyimpan lebar jalan yang sudah ditentukan oleh variabel global ```ROAD_WIDTH```. Nilai lebar jalan ini tetap untuk setiap jalan yang dibuat, dan dalam contoh ini lebarnya adalah 10 piksel.
+    - Fungsi: Menyimpan lebar road yang sudah ditentukan oleh variabel global ```ROAD_WIDTH```. Nilai lebar road ini tetap untuk setiap road yang dibuat, dan dalam contoh ini lebarnya adalah 10 piksel.
 
 ```python
 def get_image(self):
         img = np.ones((self.length, self.width)) * ROAD_COLOR
         return img
 ```
-Metode ini menghasilkan gambar atau representasi visual dari jalan dalam bentuk matriks numpy (array 2D) yang berisi nilai warna tertentu untuk jalan.
+Metode ini menghasilkan gambar atau representasi visual dari road dalam bentuk matriks numpy (array 2D) yang berisi nilai warna tertentu untuk road.
 
 Langkah Kerja:
 1.	```np.ones((self.length, self.width))```:
-    - Fungsi np.ones membuat sebuah matriks dengan ukuran panjang x lebar jalan (yaitu self.length x self.width). Matriks ini berisi nilai 1 di semua elemennya. Ukuran dari matriks ini ditentukan oleh panjang dan lebar jalan.
-    - Misalnya, jika panjang jalan adalah 60 piksel dan lebarnya 10 piksel, matriks yang dihasilkan adalah berukuran 60 x 10.
+    - Fungsi np.ones membuat sebuah matriks dengan ukuran panjang x lebar road (yaitu self.length x self.width). Matriks ini berisi nilai 1 di semua elemennya. Ukuran dari matriks ini ditentukan oleh panjang dan lebar road.
+    - Misalnya, jika panjang road adalah 60 piksel dan lebarnya 10 piksel, matriks yang dihasilkan adalah berukuran 60 x 10.
 2.	```ROAD_COLOR```:
-    - Setiap elemen dalam matriks yang awalnya bernilai 1 kemudian dikalikan dengan nilai ROAD_COLOR, yang merupakan variabel global yang mendefinisikan warna jalan (dalam contoh ini, nilainya adalah 6). Jadi, seluruh elemen dalam matriks akan menjadi 6, yang merepresentasikan warna jalan pada map.
+    - Setiap elemen dalam matriks yang awalnya bernilai 1 kemudian dikalikan dengan nilai ROAD_COLOR, yang merupakan variabel global yang mendefinisikan warna road (dalam contoh ini, nilainya adalah 6). Jadi, seluruh elemen dalam matriks akan menjadi 6, yang merepresentasikan warna road pada map.
 3.	```Return```:
-    Metode ini mengembalikan matriks numpy berukuran (self.length x self.width) yang berisi nilai 6 untuk merepresentasikan jalan. Matriks ini akan digunakan untuk menggambarkan jalan di map.
+    Metode ini mengembalikan matriks numpy berukuran (self.length x self.width) yang berisi nilai 6 untuk merepresentasikan road. Matriks ini akan digunakan untuk menggambarkan road di map.
 
 ```python
 def get_topleft(self):
@@ -236,16 +236,16 @@ def get_topleft(self):
         ytop = self.pos[1]  # start_y is at the top of the road
         return (xleft, ytop)
 ```
-Fungsi ini digunakan untuk menghitung koordinat kiri atas dari jalan berdasarkan posisi tengahnya. Koordinat kiri atas ini diperlukan untuk menempatkan gambar jalan di lokasi yang tepat di map.
+Fungsi ini digunakan untuk menghitung koordinat kiri atas dari road berdasarkan posisi tengahnya. Koordinat kiri atas ini diperlukan untuk menempatkan gambar road di lokasi yang tepat di map.
 Langkah Kerja:
 1.	```xleft = self.pos[0] - self.width // 2```:
-    - ```self.pos[0]```: Ini adalah posisi ```x``` dari tengah jalan. Misalnya, jika pusat jalan berada pada titik ```(100, 50)```, maka ```nilai - self.pos[0]``` adalah ```100```.
-    - ```self.width // 2```: Ini adalah setengah dari lebar jalan. Dengan membagi lebar jalan dengan 2, kita bisa mengetahui jarak dari pusat jalan ke tepi kirinya. Jika lebar jalan adalah 10 piksel, maka setengah lebarnya adalah 5.
-    - ```xleft```: Untuk mendapatkan koordinat x dari sudut kiri jalan, kita mengurangkan setengah dari lebar jalan dari posisi tengah x. Misalnya, jika x pusat jalan adalah 100, maka koordinat kiri jalan adalah 100 - 5 = 95.
+    - ```self.pos[0]```: Ini adalah posisi ```x``` dari tengah road. Misalnya, jika pusat road berada pada titik ```(100, 50)```, maka ```nilai - self.pos[0]``` adalah ```100```.
+    - ```self.width // 2```: Ini adalah setengah dari lebar road. Dengan membagi lebar road dengan 2, kita bisa mengetahui jarak dari pusat road ke tepi kirinya. Jika lebar road adalah 10 piksel, maka setengah lebarnya adalah 5.
+    - ```xleft```: Untuk mendapatkan koordinat x dari sudut kiri road, kita mengurangkan setengah dari lebar road dari posisi tengah x. Misalnya, jika x pusat road adalah 100, maka koordinat kiri road adalah 100 - 5 = 95.
 2.	```ytop = self.pos[1]```:
-    - ```self.pos[1]```: Ini adalah posisi y dari titik tengah jalan, yang diambil langsung tanpa perubahan. Dalam contoh ini, misalnya nilai y adalah 50, maka koordinat y atas dari jalan juga adalah 50.
+    - ```self.pos[1]```: Ini adalah posisi y dari titik tengah road, yang diambil langsung tanpa perubahan. Dalam contoh ini, misalnya nilai y adalah 50, maka koordinat y atas dari road juga adalah 50.
 3.	```Return```:
-    Metode ini mengembalikan tuple ```(xleft, ytop)```, yang merupakan koordinat dari sudut kiri atas jalan. Koordinat ini digunakan untuk menentukan di mana jalan akan digambar di map, karena titik posisi yang disimpan adalah titik tengah, sedangkan gambar harus dimulai dari sudut kiri atas.
+    Metode ini mengembalikan tuple ```(xleft, ytop)```, yang merupakan koordinat dari sudut kiri atas road. Koordinat ini digunakan untuk menentukan di mana road akan digambar di map, karena titik posisi yang disimpan adalah titik tengah, sedangkan gambar harus dimulai dari sudut kiri atas.
 
 # Class Block()
 ```python
@@ -276,22 +276,22 @@ class Block:
 
         return False  # No overlap
 ```
-Fungsi ini digunakan untuk menghasilkan gambar dari sebuah **block**, termasuk latar belakang (rumput) dan objek-objek yang ada di dalam block seperti pohon, rumah, atau jalan. Gambar yang dihasilkan adalah numpy array yang mewakili warna dan ukuran dari elemen-elemen yang ada dalam block tersebut. Fungsi ini juga memastikan bahwa objek-objek ditampilkan dalam urutan tertentu dan ditempatkan pada koordinat yang benar.
+Fungsi ini digunakan untuk menghasilkan gambar dari sebuah **block**, termasuk latar belakang (rumput) dan objek-objek yang ada di dalam block seperti tree, house, atau road. Gambar yang dihasilkan adalah numpy array yang mewakili warna dan ukuran dari elemen-elemen yang ada dalam block tersebut. Fungsi ini juga memastikan bahwa objek-objek ditampilkan dalam urutan tertentu dan ditempatkan pada koordinat yang benar.
 ## Bagian-Bagian Class Block()
 1. ```grid = np.ones((self.size,self.size))*GRASS_COLOR``` 
     - np.ones((self.size, self.size)) membuat sebuah numpy array dua dimensi berukuran self.size x self.size, di mana setiap elemen array diisi dengan angka 1.
     - GRASS_COLOR: Seluruh elemen array tersebut dikalikan dengan warna rumput (GRASS_COLOR), sehingga seluruh block diinisialisasi sebagai rumput.
-    - Jadi, grid akan merepresentasikan area block dengan latar belakang rumput sebelum objek lain seperti pohon, rumah, atau jalan ditambahkan.
+    - Jadi, grid akan merepresentasikan area block dengan latar belakang rumput sebelum objek lain seperti tree, house, atau road ditambahkan.
 
 Contoh: Jika ukuran block adalah ```120x120```, maka grid akan berisi array 120x120 yang setiap elemennya memiliki nilai ```GRASS_COLOR```.
 
 ```for item in self.items: topleft = item.get_topleft() img = item.get_image()```
 
-```self.items``` adalah daftar objek (pohon, rumah, atau jalan) yang telah ditambahkan ke dalam block. Fungsi ini akan menggambar setiap objek tersebut dalam urutan mereka ada di dalam list.
+```self.items``` adalah daftar objek (tree, house, atau road) yang telah ditambahkan ke dalam block. Fungsi ini akan menggambar setiap objek tersebut dalam urutan mereka ada di dalam list.
 
 Untuk setiap item di dalam list:
 - ```item.get_topleft()``` mendapatkan koordinat sudut kiri atas dari objek. Ini menentukan di mana objek akan ditempatkan di dalam grid block.
-- item.get_image() mengambil gambar dari objek berupa numpy array. Ukuran dan warnanya tergantung pada objek (misalnya, pohon, rumah, atau jalan).
+- item.get_image() mengambil gambar dari objek berupa numpy array. Ukuran dan warnanya tergantung pada objek (misalnya, tree, house, atau road).
 
 ```cx_start = max(0, topleft[0])
 ry_start = max(0, topleft[1])
@@ -316,7 +316,7 @@ Penjelasan:
 
 ```grid[ry_start:ry_stop, cx_start:cx_stop] = img[:ry_stop - ry_start, :cx_stop - cx_start]```:
 - Potongan gambar dari objek (dari awal hingga akhir di kedua sumbu x dan y) akan ditempatkan pada posisi yang sesuai di dalam grid.
-- Misalnya, jika ada pohon dengan ukuran 10x10 piksel, dan ```cx_start = 50```, ```ry_start = 20```, maka grid dari (50, 20) hingga (60, 30) akan diisi dengan warna pohon.
+- Misalnya, jika ada tree dengan ukuran 10x10 piksel, dan ```cx_start = 50```, ```ry_start = 20```, maka grid dari (50, 20) hingga (60, 30) akan diisi dengan warna tree.
 - 
 
 # Class Map
@@ -372,7 +372,7 @@ class Map:
 
         return thermal_view
 ```
-Kelas Map berfungsi untuk merepresentasikan map yang terdiri dari kumpulan block. Setiap block di dalam map bisa berisi objek seperti pohon, rumah, atau jalan. Map memiliki dua jenis tampilan, yaitu RGB view untuk representasi visual (warna) dan thermal view untuk representasi suhu.
+Kelas Map berfungsi untuk merepresentasikan map yang terdiri dari kumpulan block. Setiap block di dalam map bisa berisi objek seperti tree, house, atau road. Map memiliki dua jenis tampilan, yaitu RGB view untuk representasi visual (warna) dan thermal view untuk representasi suhu.
 
 ## Bagian-bagian Class Map()
 ```python
@@ -501,7 +501,7 @@ Langkah-langkah:
     ```
 
     Looping melalui setiap objek di dalam block:
-    - ```item.get_image()```: Mendapatkan gambar dari objek (misalnya rumah, pohon, atau jalan).
+    - ```item.get_image()```: Mendapatkan gambar dari objek (misalnya house, tree, atau road).
     - ```item.get_topleft()```: Mendapatkan koordinat atas-kiri dari objek di dalam block.
     - Menentukan posisi objek: Menghitung koordinat awal dan akhir dari objek di grid block.
 
@@ -514,9 +514,9 @@ Langkah-langkah:
     elif isinstance(item, Road):
         block_temp[item_y_start:item_y_end, item_x_start:item_x_end] += 1
     ```
-    - Jika objek adalah rumah, suhu di area tersebut dinaikkan 5°C.
-    - Jika objek adalah pohon, suhu dinaikkan 2°C.
-    - Jika objek adalah jalan, suhu dinaikkan 1°C.
+    - Jika objek adalah house, suhu di area tersebut dinaikkan 5°C.
+    - Jika objek adalah tree, suhu dinaikkan 2°C.
+    - Jika objek adalah road, suhu dinaikkan 1°C.
 
 6.	Mengisi suhu block ke dalam map suhu:
 ```thermal_view[ry_start:ry_start + self.blocksize, cx_start:cx_start + self.blocksize] += block_temp```
@@ -561,7 +561,7 @@ def simulation_loop(map_obj, steps=24):
 ```
 
 Fungsi simulation_loop() digunakan untuk mensimulasikan perubahan suhu dan menampilkan visualisasi map dalam bentuk RGB View dan Thermal View pada setiap langkah waktu (step) yang telah ditentukan.
-Fungsi ini berjalan dalam loop, di mana setiap iterasi dari loop mewakili satu langkah waktu dalam sehari, dengan perubahan suhu yang terjadi sesuai dengan waktu tersebut (pagi, siang, sore, malam).
+Fungsi ini berroad dalam loop, di mana setiap iterasi dari loop mewakili satu langkah waktu dalam sehari, dengan perubahan suhu yang terjadi sesuai dengan waktu tersebut (pagi, siang, sore, malam).
 
 ## Penjelasan Bagian Fungsi simulation_loop
 Parameter
@@ -611,11 +611,11 @@ Parameter
 
 4. Menghasilkan Tampilan Thermal
     ```thermal_view = map_obj.generate_thermal_view(base_temp=base_temp)```
-    Fungsi generate_thermal_view(base_temp) digunakan untuk menghasilkan tampilan suhu (thermal view) berdasarkan suhu dasar yang telah dihitung. Ini menggunakan objek map map_obj untuk menghitung pengaruh setiap item (seperti rumah, pohon, jalan) terhadap suhu.
+    Fungsi generate_thermal_view(base_temp) digunakan untuk menghasilkan tampilan suhu (thermal view) berdasarkan suhu dasar yang telah dihitung. Ini menggunakan objek map map_obj untuk menghitung pengaruh setiap item (seperti house, tree, road) terhadap suhu.
     Suhu dasar akan ditambahkan dengan efek suhu dari item, misalnya:
-    - Rumah menambah 5°C.
-    - Pohon menambah 2°C.
-    - Jalan menambah 1°C.
+    - House menambah 5°C.
+    - Tree menambah 2°C.
+    - Road menambah 1°C.
 
 5. Membuat Gambar Visualisasi (Plotting)
     Fungsi ini kemudian menampilkan dua plot: RGB View dan Thermal View.
@@ -632,7 +632,7 @@ Parameter
         fig.colorbar(img_rgb, ax=ax[0])
         ```
         
-        a. generate_rgb_view(): Menghasilkan tampilan RGB dari map, di mana warna-warna digunakan untuk merepresentasikan item seperti rumah, pohon, jalan, dan rumput.
+        a. generate_rgb_view(): Menghasilkan tampilan RGB dari map, di mana warna-warna digunakan untuk merepresentasikan item seperti house, tree, road, dan rumput.
         b. imshow(): Menampilkan tampilan RGB di area plot pertama (ax[0]).
         c. colorbar(): Menambahkan legenda warna di samping tampilan untuk memperlihatkan rentang warna yang digunakan.
 
@@ -709,7 +709,7 @@ if __name__ == "__main__":
     main()
 
 ```
-Fungsi ```main()```  adalah pusat dari program yang mengatur alur simulasi pembuatan map. Pengguna diminta untuk memasukkan jumlah dan posisi item (pohon, rumah, jalan), lalu item tersebut ditempatkan di map jika tidak ada tumpang tindih (overlap) antar item. Setelah itu, program menjalankan simulasi suhu dan menampilkan map secara visual
+Fungsi ```main()```  adalah pusat dari program yang mengatur alur simulasi pembuatan map. Pengguna diminta untuk memasukkan jumlah dan posisi item (tree, house, road), lalu item tersebut ditempatkan di map jika tidak ada tumpang tindih (overlap) antar item. Setelah itu, program menroadkan simulasi suhu dan menampilkan map secara visual
 
 ## Penjelasan bagian-bagian fungsi Main()
 1. Inisialisasi Variabel blocksize dan map_shape:
@@ -723,17 +723,17 @@ Fungsi ```main()```  adalah pusat dari program yang mengatur alur simulasi pembu
     ```python
     map_obj = Map(map_shape, blocksize)
     ```
-    Membuat sebuah objek dari class Map dengan bentuk map (map_shape) dan ukuran block (blocksize). Objek Map ini akan menampung block-block dan item (seperti pohon, rumah, dan jalan) yang akan digambar di map.
+    Membuat sebuah objek dari class Map dengan bentuk map (map_shape) dan ukuran block (blocksize). Objek Map ini akan menampung block-block dan item (seperti tree, house, dan road) yang akan digambar di map.
 3. Menerima Input dari Pengguna:
     ```python
     num_trees = int(input("Enter the number of trees to spawn: "))
     num_houses = int(input("Enter the number of houses to spawn: "))
     num_roads = int(input("Enter the number of roads to spawn: "))
     ```
-    - ```num_trees```: Jumlah pohon yang akan ditambahkan di map.
-    - ```num_houses```: Jumlah rumah yang akan ditambahkan di map.
-    - ```num_roads```: Jumlah jalan yang akan ditambahkan di map.
-4. Mendefinisikan Koordinat untuk Pohon, Rumah, dan Jalan:
+    - ```num_trees```: Jumlah tree yang akan ditambahkan di map.
+    - ```num_houses```: Jumlah house yang akan ditambahkan di map.
+    - ```num_roads```: Jumlah road yang akan ditambahkan di map.
+4. Mendefinisikan Koordinat untuk Tree, House, dan Road:
     ```python
     tree_coords = []
     house_coords = []
@@ -741,32 +741,32 @@ Fungsi ```main()```  adalah pusat dari program yang mengatur alur simulasi pembu
     ```
     ```tree_coords```, ```house_coords```, dan ```road_coords```: List untuk menyimpan koordinat yang akan diberikan oleh pengguna, di mana item-item tersebut akan ditempatkan di map.
 5. Menerima Input Koordinat dari Pengguna:
-    Pengguna akan memberikan koordinat ```(x, y)``` untuk setiap pohon, rumah, dan jalan yang akan digambar pada map.
-    - Koordinat untuk pohon:
+    Pengguna akan memberikan koordinat ```(x, y)``` untuk setiap tree, house, dan road yang akan digambar pada map.
+    - Koordinat untuk tree:
         ```python
         for i in range(num_trees):
         x, y = map(int, input(f"Enter x, y coordinates for Tree {i + 1} (comma-separated): ").split(","))
         tree_coords.append((x, y))
         ```
-    - Koordinat untuk Rumah:
+    - Koordinat untuk House:
         ```python
         for i in range(num_houses):
         x, y = map(int, input(f"Enter x, y coordinates for House {i + 1} (comma-separated): ").split(","))
         house_coords.append((x, y))
         ```
-        Pengguna memasukkan koordinat (x, y) untuk setiap rumah, dan koordinatnya disimpan dalam ```house_coords```.
-    - Koordinat untuk Jalan:
+        Pengguna memasukkan koordinat (x, y) untuk setiap house, dan koordinatnya disimpan dalam ```house_coords```.
+    - Koordinat untuk Road:
         ```python
         for i in range(num_roads):
         x, y = map(int, input(f"Enter x, y coordinates for Road {i + 1} (comma-separated): ").split(","))
         road_coords.append((x, y))
         ```
-        Pengguna memasukkan koordinat ```(x, y)``` untuk setiap jalan, dan disimpan dalam ```road_coords```.
+        Pengguna memasukkan koordinat ```(x, y)``` untuk setiap road, dan disimpan dalam ```road_coords```.
 
 
 6. Menambahkan Item ke dalam Block di Map:
-    Pohon, rumah, dan jalan ditambahkan ke dalam block map dengan memeriksa apakah ada overlap (tumpang tindih) antar item atau tidak.
-    - Menambahkan Pohon
+    Tree, house, dan road ditambahkan ke dalam block map dengan memeriksa apakah ada overlap (tumpang tindih) antar item atau tidak.
+    - Menambahkan Tree
         ```python
             for block in map_obj.blocks:
                 for coord in tree_coords:
@@ -774,28 +774,28 @@ Fungsi ```main()```  adalah pusat dari program yang mengatur alur simulasi pembu
                     if not block.check_overlap(new_tree):  # Check for overlap
                         block.add_item(new_tree)
         ```
-        Membuat objek Tree untuk setiap koordinat yang diberikan pengguna. Fungsi ```check_overlap()``` digunakan untuk memeriksa apakah item pohon bertumpang tindih dengan item lain di block. Jika tidak bertumpang tindih, item ditambahkan ke block dengan ```add_item()```.
+        Membuat objek Tree untuk setiap koordinat yang diberikan pengguna. Fungsi ```check_overlap()``` digunakan untuk memeriksa apakah item tree bertumpang tindih dengan item lain di block. Jika tidak bertumpang tindih, item ditambahkan ke block dengan ```add_item()```.
         
-    - Menambahkan Rumah:
+    - Menambahkan House:
         ```python
             for coord in house_coords:
                 new_house = House(coord)
                 if not block.check_overlap(new_house):  # Check for overlap
                     block.add_item(new_house)
         ```
-        Sama seperti pohon, rumah juga ditambahkan ke block jika tidak tumpang tindih.
+        Sama seperti tree, house juga ditambahkan ke block jika tidak tumpang tindih.
 
-7. Menjalankan Simulasi:
+7. Menroadkan Simulasi:
     ```python
     simulation_loop(map_obj, steps=24)
     ```
-    Setelah semua item ditambahkan, ```simulation_loop()``` dijalankan. Fungsi ini akan menampilkan simulasi map dalam 24 langkah waktu (24 jam), dengan menunjukkan bagaimana suhu dasar (base temperature) berubah sepanjang hari.
-8. Memastikan Fungsi main() Dijalankan:
+    Setelah semua item ditambahkan, ```simulation_loop()``` diroadkan. Fungsi ini akan menampilkan simulasi map dalam 24 langkah waktu (24 jam), dengan menunjukkan bagaimana suhu dasar (base temperature) berubah sepanjang hari.
+8. Memastikan Fungsi main() Diroadkan:
     ```python
     if __name__ == "__main__":
         main()
     ```
-    Bagian ini memastikan bahwa fungsi ```main()``` dijalankan ketika file dijalankan sebagai script, menginisialisasi proses input pengguna dan menjalankan simulasi map.
+    Bagian ini memastikan bahwa fungsi ```main()``` diroadkan ketika file diroadkan sebagai script, menginisialisasi proses input pengguna dan menroadkan simulasi map.
 
 
 List error:
@@ -804,5 +804,5 @@ jam tidak dibatasi
 klarifikasi:
 simulasinya hanya untuk dibawah 24 jam
 2. Bug kedua
-kondisi untuk mengecek koordinat tidak berjalan sehingga program tetap berjalan
+kondisi untuk mengecek koordinat tidak berroad sehingga program tetap berroad
 3.
